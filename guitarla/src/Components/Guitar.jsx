@@ -1,7 +1,12 @@
-function Guitar (guitar) {
-  console.log(guitar)
+function Guitar ({guitar,cart, setCart}) {
 
-  const {id, name, image, description, price} = guitar.guitar
+
+  const {id, name, image, description, price} = guitar
+  
+  const handleClick = (guitar) => {
+    setCart([...cart,guitar])
+  }
+
   return (
     <div className="col-md-6 col-lg-4 my-4 row align-items-center">
     <div className="col-4">
@@ -14,6 +19,7 @@ function Guitar (guitar) {
         <button 
             type="button"
             className="btn btn-dark w-100"
+            onClick={() => handleClick(guitar)}
         >Agregar al Carrito</button>
     </div>
 </div>
