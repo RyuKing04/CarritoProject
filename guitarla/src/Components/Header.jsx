@@ -1,3 +1,5 @@
+import { useMemo } from "react";
+
 function Header({ cart }) {
   //State derivado
   const isEmpty = () => cart.length === 0;
