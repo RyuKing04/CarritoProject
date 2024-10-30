@@ -8,9 +8,17 @@ function App() {
 
   const [cart, setCart] = useState([]);
 
+  const MAX_ITEMS= 10
+  const MIN_ITEMS=0
+
+  useEffect(()=>{
+    localStorage.setItem('cart',JSON.stringify(cart))
+  },[cart])
+
   function addToCart(item) {
     const itemExits = cart.findIndex((guitar) => guitar.id === item.id);
     if (itemExits >= 0) {
+      if(cart[itemExits].quantity>= MAX_ITEMS)return
       const updaetedCar = [...cart];
       updaetedCar[itemExits].quantity++;
       setCart(updaetedCar);
@@ -18,12 +26,53 @@ function App() {
       item.quantity = 1;
       setCart([...cart, item]);
     }
+    
   }
+function removeFromCart(id){
+  setCart(prevCart=> prevCart.filter(guitar=> guitar.id !== id))
+}
+
+function increaseQuantity(id){
+  const updateCart = cart.map(item => {
+    if(item.id===id && item.quantity < MAX_ITEMS){
+      return{
+        ...item,
+        quantity: item.quantity + 1
+      }
+    }
+return item
+  })
+  setCart(updateCart)
+}
+
+function decreaseQuantity(id){
+const updateCart= cart.map(item=> {
+  if(item.id===id && item.quantity > MIN_ITEMS){
+    return{
+      ...item,
+      quantity:item.quantity - 1
+    }
+  }
+  return item
+})
+  setCart(updateCart)
+}
+
+function clearCart(){
+  setCart([])
+}
+
+
+
 
   return (
     <>
       <Header 
       cart={cart}
+      removeFromCart={removeFromCart}
+      increaseQuantity={increaseQuantity}
+      decreaseQuantity={decreaseQuantity}
+      clearCart={clearCart}
       />
       <main className="container-xl mt-5">
         <h2 className="text-center">Nuestra Colección</h2>
