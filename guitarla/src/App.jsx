@@ -4,9 +4,15 @@ import Header from "./components/Header";
 import { db } from "./data/db";
 
 function App() {
-  const [data, setData] = useState(db);
 
-  const [cart, setCart] = useState([]);
+const initialCart= () =>{
+  const localStorageCart = localStorage.getItem('cart')
+  return localStorageCart ? JSON.parse(localStorageCart) : []
+
+}
+  const [data] = useState(db);
+
+  const [cart, setCart] = useState(initialCart);
 
   const MAX_ITEMS= 10
   const MIN_ITEMS=0
@@ -61,10 +67,6 @@ const updateCart= cart.map(item=> {
 function clearCart(){
   setCart([])
 }
-
-
-
-
   return (
     <>
       <Header 
